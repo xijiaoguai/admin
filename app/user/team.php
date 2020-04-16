@@ -12,6 +12,7 @@ namespace app\user;
 
 use app\lib\api;
 use app\lib\enum\enum_err;
+use app\lib\model\role_relation;
 use app\lib\model\team as model_team;
 use app\lib\model\team_apply;
 use app\lib\model\user as model_user;
@@ -66,6 +67,9 @@ class team extends api
                 'team_id' => $team_id
             ];
             team_relation::new()->value($team_relation)->add();
+
+            //申请加入某一个团队，其他团队申请将撤销
+            team_apply::new()->where([['uid', $uid], ['status', 0]])->value(['status' => 3])->save();
 
             model_user::new()->value(['team_id' => $team_id])->where([' id', $uid])->save();
             $this->commit();
@@ -246,6 +250,7 @@ class team extends api
         try {
             model_user::new()->where(['id', $uid])->value(['team_id' => 0])->save();
             team_relation::new()->where(['uid', $uid])->value(['status' => 1])->save();
+            role_relation::new()->where(['uid', $uid])->value(['status' => 1])->save();
             $this->commit();
             return true;
         } catch (\Throwable $e) {

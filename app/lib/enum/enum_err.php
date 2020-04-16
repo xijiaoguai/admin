@@ -38,6 +38,7 @@ class enum_err
     const NO_TEAM        = '2006-尚未加入团队';
     const MARK_ERROR     = '2007-该团队不存在';
     const CRATER_OUT     = '2008-创建者不能推出团队';
+    const CRATER_CTRL    = '2009-创建者不能改变';
 
     public static function get_code($msg)
     {

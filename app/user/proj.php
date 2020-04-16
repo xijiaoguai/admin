@@ -12,9 +12,11 @@ namespace app\user;
 
 use app\lib\api;
 use app\lib\enum\enum_err;
+use app\lib\model\role_relation;
 use app\lib\model\user as model_user;
 use app\lib\model\proj as model_proj;
 use app\lib\model\team as model_team;
+use app\lib\model\menu as model_menu;
 
 class proj extends api
 {
@@ -33,9 +35,22 @@ class proj extends api
         if (empty($team_id)) {
             $this->fail(enum_err::NO_TEAM);
         }
+        $where = [['team_id', $team_id], ['status', 0]];
+        //如果不是创建者
+        if (!model_team::new()->where([['crt_id', $uid]])->exist()) {
+            $proj_ids = role_relation::new()
+                ->where([['uid', $uid], ['status', 0]])
+                ->fields('proj_id')
+                ->get(\PDO::FETCH_COLUMN);
+            if (!empty($proj_ids)) {
+                $where[] = ['id', 'IN', $proj_ids];
+            } else {
+                $where[] = [1, 2];
+            }
+        }
         return model_proj::new()
             ->fields('id', 'name', 'desc')
-            ->where([['team_id', $team_id], ['status', 0]])
+            ->where($where)
             ->get_page($page, $page_size);
     }
 
@@ -63,7 +78,19 @@ class proj extends api
         if ($proj_id) {
             return model_proj::new()->value($proj)->where(['id', $proj_id])->save();
         } else {
-            return model_proj::new()->value($proj)->add();
+            $this->begin();
+            try {
+                model_proj::new()->value($proj)->add();
+                $proj_id = model_proj::new()->get_last_insert_id();
+                model_menu::new()->value(['name' => '菜单管理', 'proj_id' => $proj_id])->add();
+                model_menu::new()->value(['name' => '角色管理', 'proj_id' => $proj_id])->add();
+                model_menu::new()->value(['name' => '成员管理', 'proj_id' => $proj_id])->add();
+                $this->commit();
+                return true;
+            } catch (\Throwable $e) {
+                $this->rollback();
+                $this->fail(enum_err::SQL_ERROR, $e->getMessage());
+            }
         }
     }
 

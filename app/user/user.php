@@ -14,7 +14,6 @@ use app\lib\api;
 use app\lib\enum\enum_err;
 use app\lib\model\team;
 use app\lib\model\team_apply;
-use app\lib\model\team_relation;
 use app\lib\pwd;
 use app\lib\token;
 use app\lib\model\user as model_user;
