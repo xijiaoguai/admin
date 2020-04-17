@@ -28,7 +28,7 @@ class proj extends api
      *
      * @return array
      */
-    public function list(int $page, int $page_size)
+    public function list()
     {
         $uid     = $this->uid;
         $team_id = model_user::new()->fields('team_id')->where(['id', $uid])->get_val();
@@ -51,7 +51,7 @@ class proj extends api
         return model_proj::new()
             ->fields('id', 'name', 'desc')
             ->where($where)
-            ->get_page($page, $page_size);
+            ->get();
     }
 
     /**
