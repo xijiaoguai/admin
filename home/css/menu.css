@@ -29,8 +29,6 @@
 .smenu {
     background: #f3f3f4;
     overflow: hidden;
-    transition: max-height .3s;
-    max-height: 0;
 }
 .item a{
     text-align: left;
@@ -38,11 +36,15 @@
 
 .smenu a {
     display: block;
-    padding: 16px 26px;
+    padding: 0 26px;
+    line-height: 58px;
     color: #000000;
     position: relative;
     text-align: left;
     margin-left: 10px;
+    height: 0;
+    overflow: hidden;
+    transition: height .3s;
 }
 
 .smenu a::before {
@@ -61,6 +63,6 @@
     opacity: 1;
 }
 
-.item:target .smenu {
-    max-height: 14em;
+.item:target .smenu a{
+    height: 58px;
 }
