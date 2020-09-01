@@ -17,6 +17,9 @@ function destroy() {
 
 function menu() {
     var proj_id = getQueryString('proj_id');
+    if (!proj_id) {
+        window.location.href = "sign.html";
+    }
     $("#proj_id").val(proj_id);
     ajax_com({"c": "user/menu-list", "proj_id": proj_id}, function (res) {
         if (res.code == 200) {
