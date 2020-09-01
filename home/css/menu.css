@@ -1,0 +1,66 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Microsoft YaHei Light UI', 'Microsoft YaHei Light', 'Microsoft YaHei', sans-serif;
+    list-style: none;
+    text-decoration: none;
+}
+
+.menu {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.item {
+    border-top: 1px solid #2980b9;
+    overflow: hidden;
+}
+
+.btn {
+    position: relative;
+    display: block;
+    padding: 16px 20px;
+    background: #FFFFFF;
+    color: #000000;
+}
+
+.smenu {
+    background: #f3f3f4;
+    overflow: hidden;
+    transition: max-height .3s;
+    max-height: 0;
+}
+.item a{
+    text-align: left;
+}
+
+.smenu a {
+    display: block;
+    padding: 16px 26px;
+    color: #000000;
+    position: relative;
+    text-align: left;
+    margin-left: 10px;
+}
+
+.smenu a::before {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 100%;
+    background: #3498db;
+    right: 0;
+    top: 0;
+    transition: .3s;
+    opacity: 0;
+}
+
+.smenu a:hover::before {
+    opacity: 1;
+}
+
+.item:target .smenu {
+    max-height: 14em;
+}

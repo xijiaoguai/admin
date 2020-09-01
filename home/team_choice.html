@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>团队选择</title>
+    <link rel="stylesheet" href="third/bootstrap4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/team_choice.css">
+    <script src="third/jquery-3.5.0.min.js"></script>
+    <script src="third/bootstrap4/js/bootstrap.min.js"></script>
+    <script src="js/conf.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/team.js"></script>
+</head>
+<body>
+
+<div class="container_team">
+    <div class="input_box">
+        <input type="text" name="" placeholder="团队名称" id="name">
+    </div>
+    <div class="input_box">
+        <input type="text" name="" placeholder="团队描述" id="desc">
+    </div>
+    <button class="btn btn-primary" onclick="team_crt()">创建团队</button>
+</div>
+<div class="container_team">
+    <div class="input_box">
+        <input type="text" name="" placeholder="团队标识" id="mark">
+    </div>
+    <div class="input_box">
+        <input type="text" name="" placeholder="加入备注" id="remarks">
+    </div>
+    <button class="btn btn-primary" onclick="team_join()">加入团队</button>
+</div>
+<div class="alert alert-success alert-dismissible fade res" role="alert" id="success">
+    操作成功
+</div>
+<div class="alert alert-danger alert-dismissible fade res" role="alert" id="error">
+    服务器错误
+</div>
+<div class="alert alert-warning alert-dismissible fade res" role="alert" id="fail">
+    操作失败
+</div>
+</body>
+</html>

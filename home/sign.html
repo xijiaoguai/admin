@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Slide Sign In/Sign Up</title>
+    <link rel="stylesheet" href="third/bootstrap4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/sign.css">
+    <script src="third/jquery-3.5.0.min.js"></script>
+    <script src="third/bootstrap4/js/bootstrap.min.js"></script>
+    <script src="js/conf.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/sign.js"></script>
+</head>
+<body>
+
+<div class="container left-panel-active">
+    <!-- Sign Up -->
+    <div class="container__form container--signup">
+        <form action="#" class="form" id="form1">
+            <h2 class="form__title">注册</h2>
+            <input type="text" id="sign_acc" placeholder="账号" class="input"/>
+            <input type="password" id="sign_pwd" placeholder="密码" class="input"/>
+            <input type="password" id="sign_check_pwd" placeholder="确认密码" class="input"/>
+            <button class="btn" onclick="sign_up()">注册</button>
+        </form>
+    </div>
+
+    <!-- Sign In -->
+    <div class="container__form container--signin">
+        <form action="#" class="form" id="form2">
+            <h2 class="form__title">登录</h2>
+            <input type="text" id="login_acc" placeholder="账号" class="input"/>
+            <input type="password" id="login_pwd" placeholder="密码" class="input"/>
+            <button class="btn" onclick="login()">登录</button>
+        </form>
+    </div>
+
+    <!-- Overlay -->
+    <div class="container__overlay">
+        <div class="overlay">
+            <div class="overlay__panel overlay--left">
+                <button class="btn" id="signIn">登录</button>
+            </div>
+            <div class="overlay__panel overlay--right">
+                <button class="btn" id="signUp">注册</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="alert alert-success alert-dismissible fade res" role="alert" id="success">
+    操作成功
+</div>
+<div class="alert alert-danger alert-dismissible fade res" role="alert" id="error">
+    服务器错误
+</div>
+<div class="alert alert-warning alert-dismissible fade res" role="alert" id="fail">
+    操作失败
+</div>
+<script>
+    const signInBtn = document.getElementById("signIn");
+    const signUpBtn = document.getElementById("signUp");
+    const fistForm = document.getElementById("form1");
+    const secondForm = document.getElementById("form2");
+    const container = document.querySelector(".container");
+
+    signInBtn.addEventListener("click", () => {
+        container.classList.remove("right-panel-active");
+    });
+
+    signUpBtn.addEventListener("click", () => {
+        container.classList.add("right-panel-active");
+    });
+
+    fistForm.addEventListener("submit", (e) => e.preventDefault());
+    secondForm.addEventListener("submit", (e) => e.preventDefault());
+</script>
+
+</body>
+</html>

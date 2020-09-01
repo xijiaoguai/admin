@@ -45,7 +45,7 @@ class user extends api
         $res['have_team']  = $acc_info['team_id'] ? 1 : 0;
         $res['is_creator'] = (int)team::new()->where(['crt_id', $acc_info['id']])->exist();
         $res['apply_num']  = $res['is_creator'] ? team_apply::new()->where([['team_id', $acc_info['team_id']], ['status', 0]])->cnt() : 0;
-        $res['on_apply'] = (int)team_apply::new()->where([['uid', $acc_info['id']], ['status', 0]])->exist();
+        $res['on_apply']   = (int)team_apply::new()->where([['uid', $acc_info['id']], ['status', 0]])->exist();
         return $res;
     }
 
@@ -55,11 +55,13 @@ class user extends api
      * @param string $acc
      * @param string $pwd
      *
-     * @return bool
+     * @return mixed
+     * @throws \Exception
      */
     public function register(string $acc, string $pwd)
     {
-        $acc_info = model_user::new()->where(['acc', $acc])->get_one();
+        $model_user = model_user::new();
+        $acc_info   = $model_user->where(['acc', $acc])->get_one();
         if (!empty($acc_info)) {
             $this->fail(enum_err::USER_EXISTS);
         }
@@ -70,6 +72,14 @@ class user extends api
             'pwd'   => $make_pwd,
             'entry' => $entry,
         ];
-        return model_user::new()->value($value)->add();
+        $model_user->value($value)->add();
+        $uid          = $model_user->get_last_insert_id();
+        $res['token'] = token::new()->make(['uid' => $uid], 'uid');
+        return $res;
+    }
+
+    public function auth($menu_id, $proj_id, $token)
+    {
+        return true;
     }
 }

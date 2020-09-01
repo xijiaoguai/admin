@@ -1,0 +1,41 @@
+.header {
+    background-color: #ffffff;
+    margin-bottom: 2px;
+}
+
+.contain {
+    background-color: #ffffff;
+}
+
+.page_ipt {
+    width: 30px;
+}
+
+.current_page {
+    color: #000000;
+}
+
+.form_div {
+    margin: 10px;
+}
+
+.res {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    z-index: -1;
+}
+
+.index {
+    z-index: 99;
+}
+
+table{
+    table-layout: fixed;
+    width: 100%;
+}
+td{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>首页</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="third/bootstrap4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="third/jquery-3.5.0.min.js"></script>
+    <script src="third/bootstrap4/js/bootstrap.min.js"></script>
+    <script src="js/conf.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/index.js"></script>
+</head>
+<body style="background: #f3f3f4">
+<div class="container-fluid d-flex home">
+    <div class="p-2 left">
+        <div class="icon">
+            管理后台
+        </div>
+        <div>
+            <ul class="menu" id="menu">
+            </ul>
+        </div>
+    </div>
+    <div class="p-2 right">
+        <iframe src="home.html" id="ifa" frameborder="0"></iframe>
+    </div>
+</div>
+<input type="hidden" id="proj_id" value="0">
+<input type="hidden" id="menu_id" value="0">
+<input type="hidden" id="token" value="">
+</body>
+</html>

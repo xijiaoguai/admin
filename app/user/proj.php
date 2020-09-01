@@ -28,7 +28,7 @@ class proj extends api
      *
      * @return array
      */
-    public function list()
+    public function list(int $page, int $page_size)
     {
         $uid     = $this->uid;
         $team_id = model_user::new()->fields('team_id')->where(['id', $uid])->get_val();
@@ -37,7 +37,8 @@ class proj extends api
         }
         $where = [['team_id', $team_id], ['status', 0]];
         //如果不是创建者
-        if (!model_team::new()->where([['crt_id', $uid]])->exist()) {
+        $is_crt = model_team::new()->where([['crt_id', $uid]])->exist();
+        if (!$is_crt) {
             $proj_ids = role_relation::new()
                 ->where([['uid', $uid], ['status', 0]])
                 ->fields('proj_id')
@@ -48,10 +49,27 @@ class proj extends api
                 $where[] = [1, 2];
             }
         }
-        return model_proj::new()
+        $res = model_proj::new()
             ->fields('id', 'name', 'desc')
             ->where($where)
-            ->get();
+            ->get_page($page, $page_size);
+        $res['is_crt'] = $is_crt;
+        return  $res;
+    }
+
+    /**
+     * proj_info
+     *
+     * @param int $id
+     *
+     * @return array
+     */
+    public function info(int $id)
+    {
+        return model_proj::new()
+            ->fields('id', 'name', 'desc')
+            ->where(['id', $id])
+            ->get_one();
     }
 
     /**
@@ -82,9 +100,9 @@ class proj extends api
             try {
                 model_proj::new()->value($proj)->add();
                 $proj_id = model_proj::new()->get_last_insert_id();
-                model_menu::new()->value(['name' => '菜单管理', 'proj_id' => $proj_id])->add();
-                model_menu::new()->value(['name' => '角色管理', 'proj_id' => $proj_id])->add();
-                model_menu::new()->value(['name' => '成员管理', 'proj_id' => $proj_id])->add();
+                model_menu::new()->value(['name' => '菜单管理', 'proj_id' => $proj_id, 'url' => 'menu.html'])->add();
+                model_menu::new()->value(['name' => '角色管理', 'proj_id' => $proj_id, 'url' => 'role.html'])->add();
+                model_menu::new()->value(['name' => '成员管理', 'proj_id' => $proj_id, 'url' => 'member.html'])->add();
                 $this->commit();
                 return true;
             } catch (\Throwable $e) {

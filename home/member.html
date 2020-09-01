@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>成员管理</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="third/bootstrap4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common.css">
+    <script src="third/jquery-3.5.0.min.js"></script>
+    <script src="third/bootstrap4/js/bootstrap.min.js"></script>
+    <script src="js/conf.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/member.js"></script>
+</head>
+<body style="background: #f3f3f4">
+<div class="container-fluid">
+    <!--    头部-->
+    <div class="col-12 d-flex mb-2 header">
+        <div class="p-2 m-auto">成员列表</div>
+        <div class="p-2">
+            <button class="btn btn-light" onclick="javascript:location.replace(location.href);">刷新</button>
+        </div>
+    </div>
+    <!--    主体-->
+    <div class="col-12 contain" style="padding-top: 20px">
+        <table class="table table-bordered" id="tab_1">
+            <thead>
+            <tr>
+                <th style="width: 10%">ID</th>
+                <th style="width: 20%">成员名称</th>
+                <th style="width: 20%">角色名称</th>
+                <th style="width: 30%">注册时间</th>
+                <th style="width: 20%">操作</th>
+            </tr>
+            </thead>
+            <tbody id="tbody_1">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 编辑模态框 -->
+<div class="modal fade" id="editModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <p class="modal-title">分配角色</p>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <div class="custom-control-inline col-12 form_div">
+                    <label class="col-2 m-auto">角色：</label>
+                    <select class="col-10 form-control" id="role_id">
+                    </select>
+                </div>
+                <!-- 模态框底部 -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="role_ctrl()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--删除模态框-->
+<div class="modal fade" id="delModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <p class="modal-title">项目删除</p>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                您确定删除该角色吗？
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="role_del()">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-success alert-dismissible fade res" role="alert" id="success">
+    操作成功
+</div>
+<div class="alert alert-danger alert-dismissible fade res" role="alert" id="error">
+    服务器错误
+</div>
+<div class="alert alert-warning alert-dismissible fade res" role="alert" id="fail">
+    操作失败
+</div>
+<!--页码-->
+<input type="hidden" id="page" value="1">
+<!--编辑id-->
+<input type="hidden" id="id" value="0">
+<!--删除id-->
+<input type="hidden" id="del_id" value="0">
+</body>
+</html>

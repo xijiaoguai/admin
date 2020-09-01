@@ -11,10 +11,8 @@ namespace app\user;
 
 
 use app\lib\api;
-use app\lib\model\menu_relation;
-use app\lib\model\role_relation;
+use app\lib\enum\enum_err;
 use app\lib\model\menu as model_menu;
-use app\lib\model\team as model_team;
 use app\user\service\menu as service_menu;
 
 class menu extends api
@@ -42,6 +40,11 @@ class menu extends api
         return array_values($menus);
     }
 
+    public function info(int $menu_id)
+    {
+        return model_menu::new()->where(['id', $menu_id])->get_one();
+    }
+
     /**
      * 菜单编辑/新增
      *
@@ -63,9 +66,23 @@ class menu extends api
         ];
         if ($id == 0) {
             return model_menu::new()->value($menu)->add();
-        } else {
-            return model_menu::new()->value($menu)->where(['id', $id])->save();
         }
+        if ($pid == $id) {
+            $this->fail(enum_err::INVALID_PARAMS, "不能自己做自己的上级菜单");
+        }
+        if ($pid) {
+            $pid_info = model_menu::new()->where(['id', $pid])->get_one();
+            if (in_array($pid_info['url'], ['menu.html', 'role.html', 'member.html'])) {
+                $this->fail(enum_err::INVALID_PARAMS, "系统菜单不能编辑");
+            }
+        }
+        if ($id) {
+            $id_info = model_menu::new()->where(['id', $id])->get_one();
+            if (in_array($id_info['url'], ['menu.html', 'role.html', 'member.html'])) {
+                $this->fail(enum_err::INVALID_PARAMS, "系统菜单不能编辑");
+            }
+        }
+        return model_menu::new()->value($menu)->where(['id', $id])->save();
     }
 
     /**
@@ -77,6 +94,10 @@ class menu extends api
      */
     public function del($id)
     {
-        return model_menu::new()->value(['status' => 1])->where(['id', $id])->save();
+        $id_info = model_menu::new()->where(['id', $id])->get_one();
+        if (in_array($id_info['url'], ['menu.html', 'role.html', 'member.html'])) {
+            $this->fail(enum_err::INVALID_PARAMS, "系统菜单不能删除");
+        }
+        return model_menu::new()->value(['status' => 1])->where([['id', $id], ['or', 'pid', $id]])->save();
     }
 }

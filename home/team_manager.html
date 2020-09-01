@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>团队管理</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="third/bootstrap4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/icon.css">
+    <script src="third/jquery-3.5.0.min.js"></script>
+    <script src="third/bootstrap4/js/bootstrap.min.js"></script>
+    <script src="js/conf.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/team.js"></script>
+</head>
+<body style="background: #f3f3f4">
+<!--test1-->
+<div class="container-fluid">
+    <!--头部-->
+    <!--    头部-->
+    <div class="col-12 d-flex mb-2 header">
+        <div class="p-2 m-auto">团队成员管理</div>
+        <div class="p-2">
+            <button class="btn btn-light" onclick="javascript:location.replace(location.href);">刷新</button>
+        </div>
+    </div>
+    <div class="col-12 d-flex header">
+        <div class="p-2">
+            团队标识：<button class="btn btn-secondary" disabled id="mark"></button>
+        </div>
+        <div class="p-2">
+            团队申请：<button class="btn btn-secondary" id="msg" onclick="showModel()">0</button>
+        </div>
+        <div class="p-2 ml-auto">
+            <a href="proj.html">项目管理<i class="iconfont" style="font-size: 16px">&#xe621;</i></a>
+        </div>
+    </div>
+    <!--主体-->
+    <div class="col-12 contain">
+        <table class="table table-bordered" id="tab_1">
+            <thead>
+            <tr>
+                <th style="width: 5%">ID</th>
+                <th style="width: 15%">账号</th>
+                <th style="width: 45%">权限信息</th>
+                <th style="width: 25%">注册时间</th>
+                <th style="width: 10%">操作</th>
+            </tr>
+            </thead>
+            <tbody id="tbody_1">
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--确认模态框-->
+<div class="modal fade" id="delModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <p class="modal-title">成员踢出</p>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                您确定踢出该成员吗？
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="kick()">确定</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="applyModel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <p class="modal-title">申请列表</p>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <table class="table table-bordered" id="tab_2">
+                    <thead>
+                    <tr>
+                        <th style="width: 10%">ID</th>
+                        <th style="width: 15%">uid</th>
+                        <th style="width: 15%">用户名</th>
+                        <th style="width: 40%">备注</th>
+                        <th style="width: 20%">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody_2">
+                    </tbody>
+                </table>
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-success alert-dismissible fade res" role="alert" id="success">
+    操作成功
+</div>
+<div class="alert alert-danger alert-dismissible fade res" role="alert" id="error">
+    服务器错误
+</div>
+<div class="alert alert-warning alert-dismissible fade res" role="alert" id="fail">
+    操作失败
+</div>
+
+<!--页码-->
+<input type="hidden" id="page" value="1">
+<!--页码-->
+<input type="hidden" id="apply_page" value="1">
+<!--删除项目id-->
+<input type="hidden" id="del_id" value="0">
+</body>
+</html>

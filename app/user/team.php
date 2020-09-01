@@ -18,6 +18,7 @@ use app\lib\model\team_apply;
 use app\lib\model\user as model_user;
 use app\lib\model\team_relation;
 use app\lib\pwd;
+use Cassandra\Varint;
 
 class team extends api
 {
@@ -33,7 +34,9 @@ class team extends api
         if (empty($team_id)) {
             $this->fail(enum_err::NO_TEAM);
         }
-        return model_team::new()->where(['id', $team_id])->get_one();
+        $info              = model_team::new()->where(['id', $team_id])->get_one();
+        $info['apply_num'] = $info['crt_id'] == $uid ? team_apply::new()->where([['team_id', $team_id], ['status', 0]])->cnt() : 0;
+        return $info;
     }
 
     /**
@@ -155,7 +158,7 @@ class team extends api
         return team_apply::new()
             ->alias('a')
             ->join('user as b', ['a.uid', 'b.id'], 'LEFT')
-            ->fields('a.id', 'b.acc', 'a.remarks', 'a.create')
+            ->fields('a.id', 'a.uid', 'b.acc', 'a.remarks', 'a.create')
             ->where([['a.team_id', $team_id], ['a.status', 0]])
             ->get_page($page, $page_size);
     }
@@ -217,11 +220,32 @@ class team extends api
         if (empty($team_id)) {
             $this->fail(enum_err::INVALID_PARAMS);
         }
-        return team_relation::new()->alias('a')
+        $members        = team_relation::new()->alias('a')
             ->join('user as b', ['a.uid', 'b.id'], 'LEFT')
             ->where([['a.team_id', $team_id], ['a.status', 0], ['uid', '<>', $uid]])
-            ->fields('b.id', 'b.acc')
+            ->fields('b.id', 'b.acc', 'b.create_time')
             ->get_page($page, $page_size);
+        $uids           = array_column($members['list'], 'id');
+        $role_relations = [];
+        if ($uids) {
+            $role_relations = role_relation::new()
+                ->alias('a')
+                ->join('role as b', ['a.role_id', 'b.id'], 'LEFT')
+                ->join('proj as c', ['a.proj_id', 'c.id'], 'LEFT')
+                ->where([['a.uid', 'IN', $uids], ['a.status', 0]])
+                ->fields('a.uid', 'c.name as proj_name', 'b.name as role_name')
+                ->get();
+        }
+        foreach ($members['list'] as &$member) {
+            $add = [];
+            foreach ($role_relations as $role_relation) {
+                if ($role_relation['uid'] == $member['id']) {
+                    $add[] = ['proj_name' => $role_relation['proj_name'], 'role_name' => $role_relation['role_name']];
+                }
+            }
+            $member['role_info'] = $add;
+        }
+        return $members;
     }
 
     /**

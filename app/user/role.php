@@ -33,21 +33,35 @@ class role extends api
         return model_role::new()->where([['proj_id', $proj_id], ['status', 0]])->get_page($page, $page_size);
     }
 
+    public function info(int $id)
+    {
+        return model_role::new()->where(['id', $id])->get_one();
+    }
+
     /**
      * 角色编辑/新增
      *
      * @param int    $proj_id
      * @param string $name
      * @param int    $role_id
+     * @param string $auth_str
      *
      * @return bool
      */
-    public function edit(int $proj_id, string $name, int $role_id = 0)
+    public function edit(int $proj_id, string $name, int $role_id = 0, string $auth_str = '')
     {
         if ($role_id == 0) {
-            return model_role::new()->value(['name' => $name, 'proj_id' => $proj_id])->add();
+            model_role::new()->value(['name' => $name, 'proj_id' => $proj_id])->add();
+            $role_id = model_role::new()->get_last_insert_id();
         } else {
-            return model_role::new()->where(['id', $role_id])->value(['name' => $name])->save();
+            model_role::new()->where(['id', $role_id])->value(['name' => $name])->save();
+        }
+        menu_relation::new()->where(['role_id', $role_id])->del();
+        if ($auth_str) {
+            $menu_ids = explode(',', $auth_str);
+            foreach ($menu_ids as $menu_id) {
+                menu_relation::new()->value(['menu_id' => $menu_id, 'role_id' => $role_id])->add();
+            }
         }
     }
 

@@ -212,6 +212,7 @@ final class io
 
         //Build full result
         $result = json_encode(!empty($error) ? $error + ['data' => $data] : $data, JSON_FORMAT);
+        header('Content-Type: application/json; charset=utf-8');
 
         unset($error, $data);
         return $result;
