@@ -61,6 +61,11 @@ function show_list(page) {
         var is_crt = res.data.is_crt;
         if (is_crt == 0) {
             $("#add_proj_modal").css('display', 'none');
+            $("#back").attr('href', 'sign.html');
+        }
+        if (is_crt == 0 && res.data.list.length == 1) {
+            window.location.href = "index.html?proj_id=" + res.data.list[0].id;
+            return;
         }
         $.each(res.data.list, function (k, v) {
             var btns = '';
