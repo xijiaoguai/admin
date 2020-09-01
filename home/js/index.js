@@ -23,8 +23,9 @@ function menu() {
     $("#proj_id").val(proj_id);
     ajax_com({"c": "user/menu-list", "proj_id": proj_id}, function (res) {
         if (res.code == 200) {
+            $("#proj_name").html(res.data.proj_name);
             var str = '<li class="item"><a class="btn" onclick="open_url(\'home.html\')">首页</a></li>'
-            $.each(res.data, function (k, v) {
+            $.each(res.data.menus, function (k, v) {
                 var child_str = '';
                 // var url = "#id_" + v.id;
                 var url = 'href="#id_' + v.id + '"';

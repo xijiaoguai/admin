@@ -13,6 +13,7 @@ namespace app\user;
 use app\lib\api;
 use app\lib\enum\enum_err;
 use app\lib\model\menu as model_menu;
+use app\lib\model\proj as model_proj;
 use app\user\service\menu as service_menu;
 
 class menu extends api
@@ -37,7 +38,9 @@ class menu extends api
                 unset($menus[$id]);
             }
         }
-        return array_values($menus);
+        $res['menus']     = array_values($menus);
+        $res['proj_name'] = model_proj::new()->where(['id', $proj_id])->fields('name')->get_val();
+        return $res;
     }
 
     public function info(int $menu_id)

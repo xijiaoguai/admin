@@ -8,7 +8,7 @@ function show_list() {
         if (res.code == 200) {
             var str = '';
             var option_str = "<option value='0'>无上级</option>";
-            $.each(res.data, function (k, v) {
+            $.each(res.data.menus, function (k, v) {
                 str += "<tr><td>" + v.name + "</td><td></td><td><button class=\"btn btn-primary btn-sm\" onclick=\"editModel(" + v.id + ")\">编辑</button>  <button class=\"btn btn-danger btn-sm\" onclick=\"delModel(" + v.id + ")\">删除</button></td></tr>";
                 option_str += "<option value='" + v.id + "'>" + v.name + "</option>";
                 $.each(v.child, function (k1, v1) {
