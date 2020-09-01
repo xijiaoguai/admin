@@ -21,7 +21,7 @@ body {
     -webkit-box-align: center;
     align-items: center;
     background-color: var(--white);
-    background: url(../img/background_lpjvoc.jpg);
+    background: url(../img/bg_sign.jpg);
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -112,7 +112,7 @@ body {
 
 .overlay {
     background-color: var(--lightblue);
-    background: url("../img/background_lpjvoc.jpg");
+    background: url("../img/bg_sign.jpg");
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;

@@ -8,10 +8,30 @@
     <link rel="stylesheet" href="css/index.css">
     <script src="third/jquery-3.5.0.min.js"></script>
     <script src="js/home.js"></script>
+    <style>
+        /*body{*/
+        /*    -webkit-box-align: center;*/
+        /*    align-items: center;*/
+        /*    background-color: var(--white);*/
+        /*    background: url(img/bg1.jpg);*/
+        /*    background-attachment: fixed;*/
+        /*    background-position: center;*/
+        /*    background-repeat: no-repeat;*/
+        /*    background-size: cover;*/
+        /*    display: grid;*/
+        /*    height: 100vh;*/
+        /*    place-items: center;*/
+        /*}*/
+        .home {
+            background-color: #f3f3f4; /* 不支持线性的时候显示 */
+            background-image: linear-gradient(to right, #f3f3f4 , #FFFFFF);
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid d-flex home">
-    <p id="home_p" class="m-auto" style="margin: auto;font-size: 60px;font-family: 华文行楷">本是青灯不归客， 却因浊酒留风尘</p>
+<!--    <p id="home_p" class="m-auto" style="margin: auto;font-size: 60px;font-family: 华文行楷"></p>-->
+    <p id="home_p" class="m-auto" style="margin: auto;font-size: 40px;font-family: Consolas"></p>
 </div>
 </body>
 </html>
