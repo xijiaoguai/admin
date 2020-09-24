@@ -4,7 +4,6 @@ function ajax_com(post_data, callback) {
         return;
     }
     var token = getCookie('token');
-    console.log(token);
     if (token != null) {
         post_data.token = token;
     }
