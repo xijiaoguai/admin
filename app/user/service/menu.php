@@ -18,9 +18,9 @@ use app\lib\model\team as model_team;
 
 class menu extends base
 {
-    public function menus(int $uid,int $proj_id)
+    public function menus(int $uid, int $proj_id)
     {
-        $menus = model_menu::new()->fields('id', 'name', 'url', 'pid')->where([['proj_id', $proj_id], ['status', 0]])->get();
+        $menus = model_menu::new()->fields('id', 'name', 'url', 'pid', 'crt_id')->where([['proj_id', $proj_id], ['status', 0]])->get();
         //如果是创建者，拥有所有权限
         if (model_team::new()->where(['crt_id', $uid])->exist()) {
             return $menus;
