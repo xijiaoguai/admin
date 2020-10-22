@@ -65,7 +65,8 @@ class menu extends api
             'name'    => $name,
             'url'     => $url,
             'pid'     => $pid,
-            'proj_id' => $proj_id
+            'proj_id' => $proj_id,
+            'crt_id'  => $this->uid
         ];
         if ($id == 0) {
             return model_menu::new()->value($menu)->add();

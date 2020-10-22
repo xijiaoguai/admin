@@ -37,7 +37,7 @@ class menu extends base
 
         $menu_ids = menu_relation::new()->where(['role_id', $role_id])->fields('menu_id')->get(\PDO::FETCH_COLUMN);
         foreach ($menus as $k => $menu) {
-            if (!in_array($menu['id'], $menu_ids)) {
+            if (!in_array($menu['id'], $menu_ids) && $menu['crt_id'] != $uid) {
                 unset($menus[$k]);
             }
         }
