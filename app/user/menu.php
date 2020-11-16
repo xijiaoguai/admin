@@ -40,8 +40,6 @@ class menu extends api
         }
         $res['menus']     = array_values($menus);
         $res['proj_name'] = model_proj::new()->where(['id', $proj_id])->fields('name')->get_val();
-        $res['uid']       = $uid;
-        $res['name']      = \app\lib\model\user::new()->where(['id', $this->uid])->fields('acc')->get_val();
         return $res;
     }
 

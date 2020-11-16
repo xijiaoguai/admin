@@ -9,13 +9,14 @@ function open_url(url, id = 0, name = '') {
     //     $("#menu_id").val(id);
     //     $("#token").val(getCookie('token'));
     // }
+    var proj_id = get_proj_id();
     if (id != 0) {
         if (arr.indexOf(id) > -1) {
             open_ifa(id);
             return;
         }
         var token = getCookie('token');
-        var ifa = '<iframe src="' + url+'&token='+token + '"\n' +
+        var ifa = '<iframe src="' + url + '&token=' + token + '*' + id+'*' + proj_id + '"\n' +
             '                class="ifa"\n' +
             '                frameborder="0"\n' +
             '                id="ifa_' + id + '"\n' +
@@ -46,8 +47,6 @@ function menu() {
     ajax_com({"c": "user/menu-list", "proj_id": proj_id}, function (res) {
         if (res.code == 200) {
             $("#proj_name").html(res.data.proj_name);
-            $("#uid").val(res['data']['uid']);
-            $("#name").val(res['data']['name']);
             var str = '<li class="item"><a class="btn" onclick="open_url(\'home.html\')">首页</a></li>'
             $.each(res.data.menus, function (k, v) {
                 var child_str = '';

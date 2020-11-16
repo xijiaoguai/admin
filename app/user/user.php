@@ -12,6 +12,8 @@ namespace app\user;
 
 use app\lib\api;
 use app\lib\enum\enum_err;
+use app\lib\model\menu_relation;
+use app\lib\model\role_relation;
 use app\lib\model\team;
 use app\lib\model\team_apply;
 use app\lib\pwd;
@@ -78,8 +80,24 @@ class user extends api
         return $res;
     }
 
-    public function auth($menu_id, $proj_id, $token)
+    public function auth(string $token)
     {
+        $arr     = explode("*", $token);
+        $token   = $arr[0] ?? '';
+        $menu_id = $arr[1] ?? '';
+        $proj_id = $arr[2] ?? '';
+        $data    = token::new()->parse($token, 'uid');
+        if ($data['status'] !== 0) {
+            return false;
+        }
+        $uid     = (int)$data['data']['uid'];
+        $role_id = role_relation::new()->where([['uid', $uid], ['proj_id', $proj_id], ['status', 0]])->fields('role_id')->get_val();
+        if (!$role_id) {
+            return false;
+        }
+        if (!menu_relation::new()->where([['menu_id', $menu_id], ['role_id', $role_id]])->exist()) {
+            return false;
+        }
         return true;
     }
 }
