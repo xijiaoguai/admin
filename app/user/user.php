@@ -88,16 +88,16 @@ class user extends api
         $proj_id = $arr[2] ?? '';
         $data    = token::new()->parse($token, 'uid');
         if ($data['status'] !== 0) {
-            return false;
+            return 1;
         }
         $uid     = (int)$data['data']['uid'];
         $role_id = role_relation::new()->where([['uid', $uid], ['proj_id', $proj_id], ['status', 0]])->fields('role_id')->get_val();
         if (!$role_id) {
-            return false;
+            return 2;
         }
         if (!menu_relation::new()->where([['menu_id', $menu_id], ['role_id', $role_id]])->exist()) {
-            return false;
+            return 3;
         }
-        return true;
+        return 0;
     }
 }
