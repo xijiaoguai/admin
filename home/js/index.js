@@ -2,6 +2,7 @@ var arr = new Array();
 var click = 0;
 $(function () {
     menu();
+    user_info();
 })
 
 function open_url(url, id = 0, name = '') {
@@ -83,6 +84,17 @@ function menu() {
             });
         } else {
             fail(res.message);
+        }
+    })
+}
+
+function user_info() {
+    ajax_com({"c": "user/menu-user_info"}, function (res) {
+        if (res.code == 200) {
+            $("#uid").val(res.data.uid);
+            $("#name").val(res.data.name);
+        } else {
+            window.location.href = "sign.html";
         }
     })
 }

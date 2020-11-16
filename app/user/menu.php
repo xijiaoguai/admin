@@ -104,4 +104,12 @@ class menu extends api
         }
         return model_menu::new()->value(['status' => 1])->where([['id', $id], ['or', 'pid', $id]])->save();
     }
+
+    public function user_info()
+    {
+        return [
+            'uid'  => $this->uid,
+            'name' => \app\lib\model\user::new()->where(['id', $this->uid])->fields('acc')->get_val(),
+        ];
+    }
 }
