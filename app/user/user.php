@@ -99,14 +99,14 @@ class user extends api
             $res['result'] = 1;
             return $res;
         }
-        $uid    = (int)$data['data']['uid'];
+        $uid        = (int)$data['data']['uid'];
         $res['uid'] = $uid;
-        $result = $this->auth($uid, $menu_id, $proj_id);
+        $result     = $this->auth($uid, $menu_id, $proj_id);
         if ($result !== 0) {
             $res['result'] = $result;
             return $res;
         }
-        $res['user_acc'] = \app\lib\model\user::new()->where(['uid',$uid])->fields('acc')->get_val();
+        $res['user_acc'] = \app\lib\model\user::new()->where(['id', $uid])->fields('acc')->get_val();
         return $res;
     }
 
