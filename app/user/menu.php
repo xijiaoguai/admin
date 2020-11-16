@@ -40,6 +40,8 @@ class menu extends api
         }
         $res['menus']     = array_values($menus);
         $res['proj_name'] = model_proj::new()->where(['id', $proj_id])->fields('name')->get_val();
+        $res['uid']       = $uid;
+        $res['name']      = \app\lib\model\user::new()->where(['id', $this->uid])->fields('acc')->get_val();
         return $res;
     }
 
@@ -103,13 +105,5 @@ class menu extends api
             $this->fail(enum_err::INVALID_PARAMS, "系统菜单不能删除");
         }
         return model_menu::new()->value(['status' => 1])->where([['id', $id], ['or', 'pid', $id]])->save();
-    }
-
-    public function user_info()
-    {
-        return [
-            'uid'  => $this->uid,
-            'name' => \app\lib\model\user::new()->where(['id', $this->uid])->fields('acc')->get_val(),
-        ];
     }
 }

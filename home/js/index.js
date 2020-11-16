@@ -2,7 +2,6 @@ var arr = new Array();
 var click = 0;
 $(function () {
     menu();
-    user_info();
 })
 
 function open_url(url, id = 0, name = '') {
@@ -46,6 +45,8 @@ function menu() {
     ajax_com({"c": "user/menu-list", "proj_id": proj_id}, function (res) {
         if (res.code == 200) {
             $("#proj_name").html(res.data.proj_name);
+            $("#uid").val(res.data.uid);
+            $("#name").val(res.data.name);
             var str = '<li class="item"><a class="btn" onclick="open_url(\'home.html\')">首页</a></li>'
             $.each(res.data.menus, function (k, v) {
                 var child_str = '';
@@ -84,17 +85,6 @@ function menu() {
             });
         } else {
             fail(res.message);
-        }
-    })
-}
-
-function user_info() {
-    ajax_com({"c": "user/menu-user_info"}, function (res) {
-        if (res.code == 200) {
-            $("#uid").val(res.data.uid);
-            $("#name").val(res.data.name);
-        } else {
-            window.location.href = "sign.html";
         }
     })
 }
