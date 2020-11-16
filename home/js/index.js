@@ -15,8 +15,9 @@ function open_url(url, id = 0, name = '') {
             open_ifa(id);
             return;
         }
-        var token = getCookie('token');
-        var ifa = '<iframe src="' + url + '&token=' + token + '*' + id+'*' + proj_id + '"\n' +
+        var token = getCookie('token') + '*' + id + '*' + proj_id;
+        url += (url.split('?')[1] ? '&' : '?') + 'token=' + token;
+        var ifa = '<iframe src="' + url + '"\n' +
             '                class="ifa"\n' +
             '                frameborder="0"\n' +
             '                id="ifa_' + id + '"\n' +

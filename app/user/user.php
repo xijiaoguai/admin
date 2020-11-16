@@ -15,6 +15,7 @@ use app\lib\enum\enum_err;
 use app\lib\model\menu_relation;
 use app\lib\model\role_relation;
 use app\lib\model\team;
+use app\lib\model\team as model_team;
 use app\lib\model\team_apply;
 use app\lib\pwd;
 use app\lib\token;
@@ -80,17 +81,40 @@ class user extends api
         return $res;
     }
 
-    public function auth(string $token)
+    public function auth_info(string $token)
     {
+        $res     = [
+            'result'   => 0,
+            'uid'      => 0,
+            'menu_id'  => 0,
+            'proj_id'  => 0,
+            'user_acc' => ''
+        ];
         $arr     = explode("*", $token);
         $token   = $arr[0] ?? '';
         $menu_id = $arr[1] ?? '';
         $proj_id = $arr[2] ?? '';
         $data    = token::new()->parse($token, 'uid');
         if ($data['status'] !== 0) {
-            return 1;
+            $res['result'] = 1;
+            return $res;
         }
-        $uid     = (int)$data['data']['uid'];
+        $uid    = (int)$data['data']['uid'];
+        $res['uid'] = $uid;
+        $result = $this->auth($uid, $menu_id, $proj_id);
+        if ($result !== 0) {
+            $res['result'] = $result;
+            return $res;
+        }
+        $res['user_acc'] = \app\lib\model\user::new()->where(['uid',$uid])->fields('acc')->get_val();
+        return $res;
+    }
+
+    public function auth(int $uid, int $menu_id, int $proj_id)
+    {
+        if (model_team::new()->where(['crt_id', $uid])->exist()) {
+            return 0;
+        }
         $role_id = role_relation::new()->where([['uid', $uid], ['proj_id', $proj_id], ['status', 0]])->fields('role_id')->get_val();
         if (!$role_id) {
             return 2;
