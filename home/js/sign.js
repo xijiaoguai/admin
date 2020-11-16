@@ -6,6 +6,7 @@ function login() {
             //如果没有团队，选择创建或加入
             //如果有团队，创建者则进入团队管理界面，其他则直接进入项目管理界面
             setCookie('token', res.data.token, 3600 * 24 * 7);
+            window.localStorage.setItem("admin_token", res.data.token);
             if (res.data.have_team == 1) {
                 if (res.data.is_creator == 1) {
                     window.location.href = "/team_manager.html";
