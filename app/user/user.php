@@ -99,7 +99,7 @@ class user extends api
             $this->fail(enum_err::PWD_ERROR);
         }
         $make_pwd_new = pwd::new()->make_safe_pwd($pwd_new, $acc_info['entry']);
-        return model_user::new()->where(['acc', $acc])->value(['pwd', $make_pwd_new])->save();
+        return model_user::new()->where(['acc', $acc])->value(['pwd' => $make_pwd_new])->save();
     }
 
     public function auth_info(string $token)
