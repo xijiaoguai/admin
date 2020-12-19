@@ -81,6 +81,27 @@ class user extends api
         return $res;
     }
 
+    /**
+     * 修改密码
+     * @param string $acc
+     * @param string $pwd
+     * @param string $pwd_new
+     * @return bool
+     */
+    public function pwd_change(string $acc, string $pwd, string $pwd_new)
+    {
+        $acc_info = model_user::new()->where(['acc', $acc])->get_one();
+        if (empty($acc_info)) {
+            $this->fail(enum_err::USER_NOT_EXIST);
+        }
+        $make_pwd = pwd::new()->make_safe_pwd($pwd, $acc_info['entry']);
+        if ($make_pwd != $acc_info['pwd']) {
+            $this->fail(enum_err::PWD_ERROR);
+        }
+        $make_pwd_new = pwd::new()->make_safe_pwd($pwd_new, $acc_info['entry']);
+        return model_user::new()->where(['acc', $acc])->value(['pwd', $make_pwd_new])->save();
+    }
+
     public function auth_info(string $token)
     {
         $res     = [
