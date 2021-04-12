@@ -36,6 +36,8 @@ class menu extends api
             if ($menu['pid'] != 0) {
                 $menus[$menu['pid']]['child'][] = $menu;
                 unset($menus[$id]);
+                $sort_ids = array_column($menus[$menu['pid']]['child'], 'sort');
+                array_multisort($sort_ids, SORT_DESC, $menus[$menu['pid']]['child']);
             }
         }
         $res['menus']     = array_values($menus);

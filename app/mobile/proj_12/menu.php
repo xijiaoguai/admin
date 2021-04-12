@@ -31,7 +31,7 @@ class menu extends api
         $uid      = $this->uid;
         $proj_id  = $this->proj_id;
         $menu_pid = $this->menu_pid;
-        $menus    = model_menu::new()->fields('id', 'name', 'url', 'pid', 'crt_id')->where([['pid', $menu_pid], ['status', 0]])->order(['sort' => 'desc'])->get();
+        $menus    = model_menu::new()->fields('id', 'name', 'url', 'pid', 'crt_id')->where([['pid', $menu_pid], ['status', 0]])->get();
         //如果是创建者，拥有所有权限
         if (model_team::new()->where(['crt_id', $uid])->exist()) {
             return $menus;
