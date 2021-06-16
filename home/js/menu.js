@@ -9,10 +9,10 @@ function show_list() {
             var str = '';
             var option_str = "<option value='0'>无上级</option>";
             $.each(res.data.menus, function (k, v) {
-                str += "<tr><td>" + v.name + "</td><td></td><td><button class=\"btn btn-primary btn-sm\" onclick=\"editModel(" + v.id + ")\">编辑</button>  <button class=\"btn btn-danger btn-sm\" onclick=\"delModel(" + v.id + ")\">删除</button></td></tr>";
+                str += "<tr><td>" + v.name + "</td><td></td><td>"+v.sort+"</td><td><button class=\"btn btn-primary btn-sm\" onclick=\"editModel(" + v.id + ")\">编辑</button>  <button class=\"btn btn-danger btn-sm\" onclick=\"delModel(" + v.id + ")\">删除</button></td></tr>";
                 option_str += "<option value='" + v.id + "'>" + v.name + "</option>";
                 $.each(v.child, function (k1, v1) {
-                    str += "<tr><td></td><td>" + v1.name + "</td><td><button class=\"btn btn-primary btn-sm\" onclick=\"editModel(" + v1.id + ")\">编辑</button>   <button class=\"btn btn-danger btn-sm\" onclick=\"delModel(" + v1.id + ")\">删除</button></td></tr>";
+                    str += "<tr><td></td><td>" + v1.name + "</td><td>"+v.sort+"</td><td><button class=\"btn btn-primary btn-sm\" onclick=\"editModel(" + v1.id + ")\">编辑</button>   <button class=\"btn btn-danger btn-sm\" onclick=\"delModel(" + v1.id + ")\">删除</button></td></tr>";
                 })
             })
             $("#pid").html(option_str);
