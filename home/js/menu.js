@@ -44,13 +44,15 @@ function menu_edit() {
     var url = $("#url").val();
     var pid = $("#pid").val();
     var id = $("#id").val();
+    var weight = $("#weight").val();
     ajax_com({
         "c": "user/menu-edit",
         "proj_id": proj_id,
         "name": name,
         "url": url,
         "pid": pid,
-        "id": id
+        "id": id,
+        "weight": weight
     }, function (res) {
         if (res.code == 200) {
             $('#editModal').modal('hide');

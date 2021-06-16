@@ -58,15 +58,17 @@ class menu extends api
      * @param int    $pid
      * @param string $url
      * @param int    $id
+     * @param float  $weight
      *
      * @return bool
      */
-    public function edit(int $proj_id, string $name, int $pid = 0, string $url = '', int $id = 0)
+    public function edit(int $proj_id, string $name, int $pid = 0, string $url = '', int $id = 0, float $weight = 0)
     {
         $menu = [
             'name'    => $name,
             'url'     => $url,
             'pid'     => $pid,
+            'sort'    => $weight,
             'proj_id' => $proj_id,
             'crt_id'  => $this->uid
         ];
