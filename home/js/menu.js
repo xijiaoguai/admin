@@ -4,6 +4,7 @@ $(function () {
 
 function show_list() {
     var proj_id = get_proj_id();
+    console.log(proj_id);
     ajax_com({"c": "user/menu-list", "proj_id": proj_id}, function (res) {
         if (res.code == 200) {
             var str = '';
